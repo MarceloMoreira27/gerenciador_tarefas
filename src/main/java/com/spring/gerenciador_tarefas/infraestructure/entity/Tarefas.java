@@ -38,9 +38,7 @@ public class Tarefas {
     private LocalDateTime dataCriacao;
     @Column(name = "data_conclusao")
     private LocalDateTime dataConclusao;
-
-
-
-
+    @Column(name = "usuario_id", nullable = false)
+    private Long usuarioId;
 
 }
