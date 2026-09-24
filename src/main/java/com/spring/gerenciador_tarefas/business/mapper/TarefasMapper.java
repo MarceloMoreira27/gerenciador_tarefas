@@ -1,14 +1,14 @@
 package com.spring.gerenciador_tarefas.business.mapper;
 
 import com.spring.gerenciador_tarefas.business.dtos.TarefasDTO;
-import com.spring.gerenciador_tarefas.infraestructure.entity.Tarefas;
+import com.spring.gerenciador_tarefas.infraestructure.entity.TarefasEntity;
 import org.springframework.stereotype.Component;
 
 @Component
 public class TarefasMapper {
 
-    public Tarefas paraTarefas(TarefasDTO dto){
-        return Tarefas.builder()
+    public TarefasEntity paraTarefas(TarefasDTO dto){
+        return TarefasEntity.builder()
                 .titulo(dto.getTitulo())
                 .descricao(dto.getDescricao())
                 .status(dto.getStatus())
@@ -21,7 +21,7 @@ public class TarefasMapper {
     };
 
 
-    public TarefasDTO paraTarefasDTO(Tarefas entity){
+    public TarefasDTO paraTarefasDTO(TarefasEntity entity){
         return TarefasDTO.builder()
                 .titulo(entity.getTitulo())
                 .descricao(entity.getDescricao())
@@ -30,6 +30,8 @@ public class TarefasMapper {
                 .dataLimite(entity.getDataLimite())
                 .dataCriacao(entity.getDataCriacao())
                 .dataConclusao(entity.getDataConclusao())
+                .id(entity.getId())
+                .usuarioId(entity.getUsuarioId())
                 .build();
 
     };

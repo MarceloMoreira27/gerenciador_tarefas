@@ -14,14 +14,13 @@ public class UserDetailsServiceImpl  {
 
     // Repositório para acessar dados de usuário no banco de dados
 
-
     private final UsuarioClient client;
 
     public UserDetails carregaDadosUsuario(String email,String token) {
 
         UsuarioDTO usuarioDTO = client.buscarUsuarioPorEmail(email, token);
         return User.withUsername(usuarioDTO.getEmail())
-                    .password(usuarioDTO.getSenha())
+                    .password("")
                     .build();
     }
 }
