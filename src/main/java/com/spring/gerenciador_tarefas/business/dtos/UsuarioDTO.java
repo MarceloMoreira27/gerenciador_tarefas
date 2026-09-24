@@ -12,7 +12,7 @@ import lombok.*;
 public class UsuarioDTO {
 
     private String email;
-    private String senha;
+    private Long id;
 
 
 }

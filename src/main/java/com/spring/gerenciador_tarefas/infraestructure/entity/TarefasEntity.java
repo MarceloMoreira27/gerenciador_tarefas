@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Builder
 @Entity
 @Table(name = "tarefas")
-public class Tarefas {
+public class TarefasEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )
@@ -27,10 +27,10 @@ public class Tarefas {
     @Column(name = "descricao")
     private String descricao;
     @Enumerated(EnumType.STRING)
-    @Column(name = "status", length = 50)
+    @Column(name = "status", nullable = false, length = 50)
     private StatusEnum status;
     @Enumerated(EnumType.STRING)
-    @Column(name = "prioridade",length = 50)
+    @Column(name = "prioridade",nullable = false, length = 50)
     private PrioridadeEnum prioridade;
     @Column(name = "data_limite")
     private LocalDate dataLimite;
