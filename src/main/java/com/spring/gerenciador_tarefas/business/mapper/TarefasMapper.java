@@ -4,10 +4,13 @@ import com.spring.gerenciador_tarefas.business.dtos.TarefasDTO;
 import com.spring.gerenciador_tarefas.infraestructure.entity.TarefasEntity;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Component
 public class TarefasMapper {
 
-    public TarefasEntity paraTarefas(TarefasDTO dto){
+    public TarefasEntity paraTarefasEntity(TarefasDTO dto){
         return TarefasEntity.builder()
                 .titulo(dto.getTitulo())
                 .descricao(dto.getDescricao())
@@ -35,6 +38,23 @@ public class TarefasMapper {
                 .build();
 
     };
+
+    public List<TarefasDTO>paraListaTarefasDTO(List<TarefasEntity>entitys){
+        return entitys.stream().map(this::paraTarefasDTO).toList();
+    }
+
+    public List<TarefasEntity>paraListaTarefasEntity(List<TarefasDTO>tarefasDTOS){
+
+        List<TarefasEntity> listaEntity = new ArrayList<>();
+        for (TarefasDTO tarefasDTO : tarefasDTOS){
+            listaEntity.add(paraTarefasEntity(tarefasDTO));
+        }
+
+        return listaEntity;
+
+    }
+
+
 
 
 
