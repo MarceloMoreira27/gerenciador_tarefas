@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -27,7 +28,7 @@ public class TarefasService {
 
     public TarefasDTO salvarTarefas(TarefasDTO dto){
 
-        TarefasEntity entity = mapper.paraTarefas(dto);
+        TarefasEntity entity = mapper.paraTarefasEntity(dto);
         entity.setStatus(StatusEnum.PENDENTE);
         entity.setDataCriacao(LocalDateTime.now());
         entity.setUsuarioId(buscarIdUsuario());
@@ -52,6 +53,23 @@ public class TarefasService {
         } catch (FeignException e) {
             throw new ResourceNotFoundException("Erro ao localizar id do usuario " + e.getMessage());
         }
+
+    }
+
+    public List<TarefasDTO>buscarTarefasOpcionalStatus(String status){
+        Long id = buscarIdUsuario();
+        List<TarefasEntity> entitys;
+
+
+        if (status == null || status.isBlank()) {
+              entitys = tarefasRepository.findByUsuarioId(id);
+
+          }else {
+            StatusEnum statusEnum = StatusEnum.valueOf(status);
+            entitys = tarefasRepository.findByUsuarioIdAndStatus(id, statusEnum);
+          }
+
+          return mapper.paraListaTarefasDTO(entitys);
 
     }
 
