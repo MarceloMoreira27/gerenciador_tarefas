@@ -13,6 +13,7 @@ import com.spring.gerenciador_tarefas.infraestructure.security.SecurityUtils;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -72,5 +73,13 @@ public class TarefasService {
           return mapper.paraListaTarefasDTO(entitys);
 
     }
+
+
+    @Transactional(readOnly = true)
+    public TarefasDTO buscarTarefasPorID(Long id){
+        return mapper.paraTarefasDTO(tarefasRepository.findById(id).orElseThrow(
+                ()->new ResourceNotFoundException("Id da tarefa não localizado, id: "+id)));
+    }
+
 
 }

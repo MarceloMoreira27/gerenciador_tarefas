@@ -31,4 +31,19 @@ public class TarefasController {
        return ResponseEntity.ok(tarefasService.buscarTarefasOpcionalStatus(status));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<TarefasDTO>buscarTarefasPorId(@PathVariable("id")Long id){
+        return ResponseEntity.ok(tarefasService.buscarTarefasPorID(id));
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
