@@ -6,8 +6,9 @@ import com.spring.gerenciador_tarefas.business.dtos.UsuarioDTO;
 import com.spring.gerenciador_tarefas.business.mapper.TarefasMapper;
 import com.spring.gerenciador_tarefas.infraestructure.client.UsuarioClient;
 import com.spring.gerenciador_tarefas.infraestructure.entity.TarefasEntity;
-import com.spring.gerenciador_tarefas.infraestructure.exceptions.ResourceNotFoundException;
 import com.spring.gerenciador_tarefas.infraestructure.enuns.StatusEnum;
+import com.spring.gerenciador_tarefas.infraestructure.exceptions.ConflictException;
+import com.spring.gerenciador_tarefas.infraestructure.exceptions.ResourceNotFoundException;
 import com.spring.gerenciador_tarefas.infraestructure.repository.TarefasRepository;
 import com.spring.gerenciador_tarefas.infraestructure.security.SecurityUtils;
 import feign.FeignException;
@@ -80,6 +81,23 @@ public class TarefasService {
         return mapper.paraTarefasDTO(tarefasRepository.findById(id).orElseThrow(
                 ()->new ResourceNotFoundException("Id da tarefa não localizado, id: "+id)));
     }
+
+
+    @Transactional
+    public TarefasDTO atualizarTarefasPorId(Long id,TarefasDTO tarefasDTO){
+
+        TarefasEntity entity = tarefasRepository.findById(id).orElseThrow(
+                ()->new ResourceNotFoundException("Id da tarefa não localizado, id: "+id));
+
+        if(entity.getStatus().equals(StatusEnum.CONCLUIDA)){
+            throw new ConflictException("Tarefa CONCLUÍDA nãp pode ser aleterada! ");
+        }
+
+        TarefasEntity novaEntity = mapper.updateTarefas(entity,tarefasDTO);
+        return mapper.paraTarefasDTO(tarefasRepository.save(novaEntity));
+
+    }
+
 
 
 }

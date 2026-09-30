@@ -54,6 +54,19 @@ public class TarefasMapper {
 
     }
 
+    public TarefasEntity updateTarefas(TarefasEntity entity,TarefasDTO dto){
+        return TarefasEntity.builder()
+                .titulo(dto.getTitulo())
+                .descricao(dto.getDescricao())
+                .status(entity.getStatus())
+                .prioridade(dto.getPrioridade())
+                .dataLimite(dto.getDataLimite())
+                .dataCriacao(entity.getDataCriacao())
+                .dataConclusao(entity.getDataConclusao())
+                .usuarioId(entity.getUsuarioId())
+                .id(entity.getId())
+                .build();
+    }
 
 
 

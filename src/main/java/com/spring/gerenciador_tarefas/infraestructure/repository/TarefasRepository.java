@@ -12,4 +12,5 @@ public interface TarefasRepository extends JpaRepository<TarefasEntity, Long> {
     List<TarefasEntity> findByUsuarioId(Long usuarioId);
 
     List<TarefasEntity> findByUsuarioIdAndStatus(Long usuarioId, StatusEnum status);
+
 }

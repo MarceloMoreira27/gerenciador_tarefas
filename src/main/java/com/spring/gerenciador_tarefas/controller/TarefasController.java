@@ -36,6 +36,12 @@ public class TarefasController {
         return ResponseEntity.ok(tarefasService.buscarTarefasPorID(id));
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<TarefasDTO> atualizarTarefasPorId( @PathVariable("id")Long id,
+                                                             @Valid @RequestBody TarefasDTO tarefasDTO){
+        return ResponseEntity.ok(tarefasService.atualizarTarefasPorId(id,tarefasDTO));
+    }
+
 }
 
 
