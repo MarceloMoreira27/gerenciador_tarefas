@@ -82,6 +82,13 @@ public class TarefasService {
                 ()->new ResourceNotFoundException("Id da tarefa não localizado, id: "+id)));
     }
 
+    private void verificaStatusTarefaConcluida(StatusEnum status){
+        if (StatusEnum.CONCLUIDA.equals(status)){
+            throw new ConflictException("Tarefa CONCLUÍDA não pode ser alterada!");
+        }
+    }
+
+
 
     @Transactional
     public TarefasDTO atualizarTarefasPorId(Long id,TarefasDTO tarefasDTO){
@@ -89,14 +96,15 @@ public class TarefasService {
         TarefasEntity entity = tarefasRepository.findById(id).orElseThrow(
                 ()->new ResourceNotFoundException("Id da tarefa não localizado, id: "+id));
 
-        if(entity.getStatus().equals(StatusEnum.CONCLUIDA)){
-            throw new ConflictException("Tarefa CONCLUÍDA nãp pode ser aleterada! ");
-        }
+        verificaStatusTarefaConcluida(entity.getStatus());
 
         TarefasEntity novaEntity = mapper.updateTarefas(entity,tarefasDTO);
         return mapper.paraTarefasDTO(tarefasRepository.save(novaEntity));
 
     }
+
+
+
 
 
 
