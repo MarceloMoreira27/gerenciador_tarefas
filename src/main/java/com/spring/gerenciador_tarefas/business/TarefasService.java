@@ -1,6 +1,7 @@
 package com.spring.gerenciador_tarefas.business;
 
 
+import com.spring.gerenciador_tarefas.business.dtos.StatusTarefasDTO;
 import com.spring.gerenciador_tarefas.business.dtos.TarefasDTO;
 import com.spring.gerenciador_tarefas.business.dtos.UsuarioDTO;
 import com.spring.gerenciador_tarefas.business.mapper.TarefasMapper;
@@ -28,6 +29,7 @@ public class TarefasService {
     private final UsuarioClient client;
 
 
+    @Transactional
     public TarefasDTO salvarTarefas(TarefasDTO dto){
 
         TarefasEntity entity = mapper.paraTarefasEntity(dto);
@@ -94,7 +96,7 @@ public class TarefasService {
     public TarefasDTO atualizarTarefasPorId(Long id,TarefasDTO tarefasDTO){
 
         TarefasEntity entity = tarefasRepository.findById(id).orElseThrow(
-                ()->new ResourceNotFoundException("Id da tarefa não localizado, id: "+id));
+                ()->new ResourceNotFoundException("Id da tarefa não localizado, id: "+ id));
 
         verificaStatusTarefaConcluida(entity.getStatus());
 
@@ -102,6 +104,35 @@ public class TarefasService {
         return mapper.paraTarefasDTO(tarefasRepository.save(novaEntity));
 
     }
+
+
+    @Transactional
+    public TarefasDTO atualizarStatusTarefasPorId(Long id, StatusTarefasDTO statusTarefasDTO){
+        TarefasEntity entity = tarefasRepository.findById(id).orElseThrow(
+                ()->new ResourceNotFoundException("Id da tarefa não localizado, id: "+ id));
+
+        verificaStatusTarefaConcluida(entity.getStatus());
+
+        StatusEnum status = statusTarefasDTO != null ?  statusTarefasDTO.getStatus() : null ;
+        entity.setStatus(status != null ? status : entity.getStatus());
+
+        return mapper.paraTarefasDTO(tarefasRepository.save(entity));
+
+    }
+
+    @Transactional
+    public void deleteTarefasPorId(Long id){
+        if(!tarefasRepository.existsById(id)){
+            throw new ResourceNotFoundException("Id da tarefa não localizado, id: "+ id);
+        }
+        tarefasRepository.deleteById(id);
+    }
+
+
+
+
+
+
 
 
 

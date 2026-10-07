@@ -2,6 +2,7 @@ package com.spring.gerenciador_tarefas.controller;
 
 
 import com.spring.gerenciador_tarefas.business.TarefasService;
+import com.spring.gerenciador_tarefas.business.dtos.StatusTarefasDTO;
 import com.spring.gerenciador_tarefas.business.dtos.TarefasDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -40,6 +41,18 @@ public class TarefasController {
     public ResponseEntity<TarefasDTO> atualizarTarefasPorId( @PathVariable("id")Long id,
                                                              @Valid @RequestBody TarefasDTO tarefasDTO){
         return ResponseEntity.ok(tarefasService.atualizarTarefasPorId(id,tarefasDTO));
+    }
+
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<TarefasDTO> atualizarStatusTarefasPorId(@PathVariable Long id,
+                                                                  @Valid @RequestBody  StatusTarefasDTO dto){
+        return ResponseEntity.ok(tarefasService.atualizarStatusTarefasPorId(id, dto));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void>deleteTarefasPorId(@PathVariable Long id){
+        tarefasService.deleteTarefasPorId(id);
+        return ResponseEntity.noContent().build();
     }
 
 }

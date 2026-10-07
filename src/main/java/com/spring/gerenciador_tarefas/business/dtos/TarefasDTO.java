@@ -36,4 +36,6 @@ public class TarefasDTO {
     private LocalDateTime dataConclusao;
     private Long usuarioId;
 
+
+
 }
